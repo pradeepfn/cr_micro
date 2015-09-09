@@ -1,7 +1,7 @@
 FC=gfortran
 CC=gcc
 CFLAGS=-g
-FFLAGS=-g
+FFLAGS=-g -I/home/pradeep/checkout/tacc_phoenix/include -L/home/pradeep/checkout/tacc_phoenix/lib
 
 main: micro.o allocate.o
 	$(FC) -o $@ $^

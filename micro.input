@@ -1,0 +1,5 @@
+&control
+comp_step=1,
+data_size=2,
+irun=0
+/
