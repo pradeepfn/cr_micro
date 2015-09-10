@@ -42,7 +42,7 @@ program micro
     fix_d = 100
 
     print *, "Micro_C/R - Starting computation"
-
+    call init(0,1)
     !allocate from phoenix lib 
     nsize = 10 
     varname = "array_one"
