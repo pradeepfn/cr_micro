@@ -11,6 +11,14 @@ MODULE Global
     real, pointer :: array_9(:)
     real, pointer :: array_10(:)
 
+CONTAINS
+    subroutine arraymod(array)
+    real,pointer  :: array(:)
+    do i = 1,size(array)  
+       array(i)=MOD(array(i),100.0)
+    end do
+    end subroutine arraymod
+
 END MODULE Global
 
 program micro
@@ -127,17 +135,18 @@ use Global
 integer iter,elems
 do i = 1,iter
     do j = 1,elems
-     array_1 = array_1 + 1
-     array_2 = array_2 + 1
-     array_3 = array_3 + 1
-     array_4 = array_4 + 1
-     array_5 = array_5 + 1
-     array_6 = array_6 + 1
-     array_7 = array_7 + 1
-     array_8 = array_8 + 1
-     array_9 = array_9 + 1
-     array_10 = array_10 + 1
+     array_1 = array_1 + 1; call arraymod(array_1)
+     array_2 = array_2 + 1; call arraymod(array_2)
+     array_3 = array_3 + 1; call arraymod(array_3)
+     array_4 = array_4 + 1; call arraymod(array_4)
+     array_5 = array_5 + 1; call arraymod(array_5)
+     array_6 = array_6 + 1; call arraymod(array_6)
+     array_7 = array_7 + 1; call arraymod(array_7)
+     array_8 = array_8 + 1; call arraymod(array_8)
+     array_9 = array_9 + 1; call arraymod(array_9)
+     array_10 = array_10 + 1; call arraymod(array_10)
     end do
 end do
 end subroutine compute
-  
+
+
