@@ -1,10 +1,10 @@
 FC=gfortran
 CC=gcc
 CFLAGS=-g
-FFLAGS=-g -I/home/pradeep/checkout/tacc_phoenix/include -L/home/pradeep/checkout/tacc_phoenix/lib
-
+FFLAGS=-g -I/home/pradeep/checkout/tacc_phoenix/include 
+LDFLAGS=-g -L/home/pradeep/checkout/tacc_phoenix/lib -lphoenix -larmci
 main: micro.o allocate.o
-	$(FC) -o $@ $^
+	mpif90 -o $@ $^ $(LDFLAGS)
 
 micro.o: micro.f90 allocate.o
 	$(FC) $(FFLAGS) -c $<

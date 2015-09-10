@@ -11,13 +11,14 @@ program micro
     integer :: length
     integer :: cmtsize
     integer :: fix_d
+    logical file_exist
     !we should be able to change the compute time and data sizes independently
     ! comp_step - controls the compute budget of the program
     ! data_size - controls the data size the program outputs
     ! irun - flas to identify fresh/restart run
 
     namelist /control/ comp_step,data_size,irun
-    integer :: i
+    integer :: i,irun,comp_step,data_size
 
 
     inquire(file='micro.input',exist=file_exist)
@@ -49,7 +50,7 @@ program micro
 
     nsize = 10*fix_d
     varname = "array_two"
-    call alloc_2d_real(array_two,nsize,,varname,1,nsize) 
+    call alloc_2d_real(array_two,10,fix_d,varname,1,nsize) 
 
     nsize = 10 
     varname = "array_thr"
@@ -57,21 +58,20 @@ program micro
 
     !Do some heavy computations, checkpoint after each iter
     do i = 1, 10
-        call compute()
+        call compute(comp_step,data_size)
         !coordinated checkpoint 
         call chkpt_all(1)
     end do
     
     write(0,*)'End of benchmark. Bye!!'
-
-
-   !Compute subroutine
-    subroutine compute(iter,elems)
-    integer iter,elems
-    do i = 1,elems
-
-
-    end do
-    end
-    
 end program micro
+
+
+!Compute subroutine
+subroutine compute(iter,elems)
+integer iter,elems
+do i = 1,elems
+    
+end do
+end subroutine compute
+  

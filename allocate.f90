@@ -1,15 +1,15 @@
 module Allocator
- USE, INTRINSIC :: ISO_C_BINDING
+    USE, INTRINSIC :: ISO_C_BINDING
     interface
-    type(c_ptr) function alloc(s, varname, mype, cmtsize)
+    type(c_ptr) function alloc(vsize, varname, pid, cmtsize) bind(C)
       USE, INTRINSIC :: ISO_C_BINDING
-      integer(KIND=C_INT) :: s
-      character(len=10) varname
-      integer(KIND=C_INT) :: mype, cmtsize
+      integer(KIND=C_INT) :: vsize
+      character(KIND=C_CHAR) :: varname(10)
+      integer(KIND=C_INT) :: pid, cmtsize
     end function alloc
     end interface
 
-    contains
+     contains
       subroutine alloc_1d_real(arr,row,varname, mype, cmtsize)
         integer :: row
         real, pointer :: arr(:)
