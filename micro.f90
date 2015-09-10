@@ -1,9 +1,21 @@
+MODULE Global
+    !we are going to  have twenty variables to simulate our apps
+    real, pointer :: array_1(:)
+    real, pointer :: array_2(:)
+    real, pointer :: array_3(:)
+    real, pointer :: array_4(:)
+    real, pointer :: array_5(:)
+    real, pointer :: array_6(:)
+    real, pointer :: array_7(:)
+    real, pointer :: array_8(:)
+    real, pointer :: array_9(:)
+    real, pointer :: array_10(:)
+
+END MODULE Global
+
 program micro
     use Allocator
-
-    real, pointer :: array_one(:)
-    real, pointer :: array_two(:,:)
-    real, pointer :: array_thr(:)
+    use Global
 
     real, pointer :: nstep
     integer, pointer :: istep
@@ -45,20 +57,63 @@ program micro
     call init(0,1)
     !allocate from phoenix lib 
     nsize = 10 
-    varname = "array_one"
-    call alloc_1d_real(array_one,nsize,varname,1,nsize) 
+    varname = "array_1"
+    call alloc_1d_real(array_1,nsize,varname,1,nsize) 
 
-    nsize = 10*fix_d
-    varname = "array_two"
-    call alloc_2d_real(array_two,10,fix_d,varname,1,nsize) 
+    nsize = 10
+    varname = "array_2"
+    call alloc_1d_real(array_2,nsize,varname,1,nsize) 
 
     nsize = 10 
-    varname = "array_thr"
-    call alloc_1d_real(array_thr,nsize,varname,1,nsize) 
+    varname = "array_3"
+    call alloc_1d_real(array_3,nsize,varname,1,nsize) 
+
+    nsize = 10 
+    varname = "array_4"
+    call alloc_1d_real(array_4,nsize,varname,1,nsize) 
+
+    nsize = 10 
+    varname = "array_5"
+    call alloc_1d_real(array_5,nsize,varname,1,nsize) 
+
+    nsize = 10 
+    varname = "array_6"
+    call alloc_1d_real(array_6,nsize,varname,1,nsize) 
+
+    nsize = 10 
+    varname = "array_7"
+    call alloc_1d_real(array_7,nsize,varname,1,nsize) 
+
+    nsize = 10 
+    varname = "array_8"
+    call alloc_1d_real(array_8,nsize,varname,1,nsize) 
+
+    nsize = 10 
+    varname = "array_9"
+    call alloc_1d_real(array_9,nsize,varname,1,nsize) 
+
+    nsize = 10 
+    varname = "array_10"
+    call alloc_1d_real(array_10,nsize,varname,1,nsize) 
+
+    !variable initialization during the first run
+    if(irun == 0)then
+      array_1=1
+      array_2=2
+      array_3=3
+      array_4=4
+      array_5=5
+      array_6=6
+      array_7=7
+      array_8=8
+      array_9=9
+      array_10=10
+    endif
 
     !Do some heavy computations, checkpoint after each iter
     do i = 1, 10
-        call compute(comp_step,data_size)
+        call compute(4,4)
+        write(0,*) 'Program values', array_1(1),array_2(1),array_3(1),array_4(1)
         !coordinated checkpoint 
         call chkpt_all(1)
     end do
@@ -66,12 +121,23 @@ program micro
     write(0,*)'End of benchmark. Bye!!'
 end program micro
 
-
 !Compute subroutine
 subroutine compute(iter,elems)
+use Global
 integer iter,elems
-do i = 1,elems
-    
+do i = 1,iter
+    do j = 1,elems
+     array_1 = array_1 + 1
+     array_2 = array_2 + 1
+     array_3 = array_3 + 1
+     array_4 = array_4 + 1
+     array_5 = array_5 + 1
+     array_6 = array_6 + 1
+     array_7 = array_7 + 1
+     array_8 = array_8 + 1
+     array_9 = array_9 + 1
+     array_10 = array_10 + 1
+    end do
 end do
 end subroutine compute
   
