@@ -1,5 +1,7 @@
 &control
-comp_step=1,
-data_size=2,
+comp_step=4,
+data_size=10000000,
 irun=0
 /
+
+! integer values should be less than 2,147,483,648

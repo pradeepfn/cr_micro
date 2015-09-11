@@ -12,12 +12,13 @@ MODULE Global
     real, pointer :: array_10(:)
 
 CONTAINS
-    subroutine arraymod(array)
+    subroutine arrayincmod(array)
     real,pointer  :: array(:)
     do i = 1,size(array)  
+       array(i) = array(i) +1
        array(i)=MOD(array(i),100.0)
     end do
-    end subroutine arraymod
+    end subroutine arrayincmod
 
 END MODULE Global
 
@@ -59,53 +60,46 @@ program micro
     write(0,*),'irun',irun
 
 
-    fix_d = 100
 
     print *, "Micro_C/R - Starting computation"
     call init(0,1)
     !allocate from phoenix lib 
-    nsize = 10 
+    nsize = data_size 
+    iter = comp_step
+
     varname = "array_1"
     call alloc_1d_real(array_1,nsize,varname,1,nsize) 
 
-    nsize = 10
     varname = "array_2"
     call alloc_1d_real(array_2,nsize,varname,1,nsize) 
 
-    nsize = 10 
     varname = "array_3"
     call alloc_1d_real(array_3,nsize,varname,1,nsize) 
 
-    nsize = 10 
     varname = "array_4"
     call alloc_1d_real(array_4,nsize,varname,1,nsize) 
 
-    nsize = 10 
     varname = "array_5"
     call alloc_1d_real(array_5,nsize,varname,1,nsize) 
 
-    nsize = 10 
     varname = "array_6"
     call alloc_1d_real(array_6,nsize,varname,1,nsize) 
 
-    nsize = 10 
     varname = "array_7"
     call alloc_1d_real(array_7,nsize,varname,1,nsize) 
 
-    nsize = 10 
     varname = "array_8"
     call alloc_1d_real(array_8,nsize,varname,1,nsize) 
 
-    nsize = 10 
     varname = "array_9"
     call alloc_1d_real(array_9,nsize,varname,1,nsize) 
 
-    nsize = 10 
     varname = "array_10"
     call alloc_1d_real(array_10,nsize,varname,1,nsize) 
 
     !variable initialization during the first run
     if(irun == 0)then
+      write(0,*) 'First run of the program. Initalizing variables.'
       array_1=1
       array_2=2
       array_3=3
@@ -120,8 +114,8 @@ program micro
 
     !Do some heavy computations, checkpoint after each iter
     do i = 1, 10
-        call compute(4,4)
-        write(0,*) 'Program values', array_1(1),array_2(1),array_3(1),array_4(1)
+        call compute(iter,nsize)
+        write(0,*) 'Program values', array_1(1),array_4(1),array_7(1),array_10(1)
         !coordinated checkpoint 
         call chkpt_all(1)
     end do
@@ -130,21 +124,22 @@ program micro
 end program micro
 
 !Compute subroutine
-subroutine compute(iter,elems)
+subroutine compute(iter,nsize)
 use Global
-integer iter,elems
+integer iter,nsize
+integer i,j,k
 do i = 1,iter
-    do j = 1,elems
-     array_1 = array_1 + 1; call arraymod(array_1)
-     array_2 = array_2 + 1; call arraymod(array_2)
-     array_3 = array_3 + 1; call arraymod(array_3)
-     array_4 = array_4 + 1; call arraymod(array_4)
-     array_5 = array_5 + 1; call arraymod(array_5)
-     array_6 = array_6 + 1; call arraymod(array_6)
-     array_7 = array_7 + 1; call arraymod(array_7)
-     array_8 = array_8 + 1; call arraymod(array_8)
-     array_9 = array_9 + 1; call arraymod(array_9)
-     array_10 = array_10 + 1; call arraymod(array_10)
+    do k = 1,iter
+     call arrayincmod(array_1)
+     call arrayincmod(array_2)
+     call arrayincmod(array_3)
+     call arrayincmod(array_4)
+     call arrayincmod(array_5)
+     call arrayincmod(array_6)
+     call arrayincmod(array_7)
+     call arrayincmod(array_8)
+     call arrayincmod(array_9)
+     call arrayincmod(array_10)
     end do
 end do
 end subroutine compute
