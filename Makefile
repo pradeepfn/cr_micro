@@ -1,10 +1,10 @@
-FC=gfortran
+FC=mpif90
 CC=gcc
 CFLAGS=-g
 FFLAGS=-g -I/home/pradeep/checkout/tacc_phoenix/include 
 LDFLAGS=-g -L/home/pradeep/checkout/tacc_phoenix/lib -lphoenix -larmci
 main: micro.o allocate.o
-	mpif90 -o $@ $^ $(LDFLAGS)
+	$(FC) -o $@ $^ $(LDFLAGS)
 
 micro.o: micro.f90 allocate.o
 	$(FC) $(FFLAGS) -c $<

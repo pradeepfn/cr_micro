@@ -25,13 +25,17 @@ END MODULE Global
 program micro
     use Allocator
     use Global
+    implicit none
+    include 'mpif.h'
 
     real, pointer :: nstep
     integer, pointer :: istep
     CHARACTER(LEN=10) varname
-    integer :: length
-    integer :: cmtsize
-    integer :: fix_d
+    integer(4) :: length
+    integer(4) :: cmtsize
+    integer(4) :: fix_d
+    integer(4):: iter,nsize
+    integer(4) :: ierr,mype,nproc
     logical file_exist
     !we should be able to change the compute time and data sizes independently
     ! comp_step - controls the compute budget of the program
@@ -44,7 +48,6 @@ program micro
 
     inquire(file='micro.input',exist=file_exist)
     if (file_exist) then
-       write(0,*)'Reading micro.input, configuring the run'
        open(55,file='micro.input',status='old')
        read(55,nml=control)
        close(55)
@@ -54,15 +57,21 @@ program micro
        write(0,*)'*** Using default run parameters...'
        write(0,*)'******************************************'
     endif
-    
+
+    call MPI_INIT(ierr)
+    call MPI_COMM_SIZE(MPI_COMM_WORLD, nproc, ierr)
+    call MPI_COMM_RANK(MPI_COMM_WORLD, mype, ierr)
+
+    call start_timestamp(mype)
+
+    if(mype == 0) then 
     write(0,*),'comp_step',comp_step
     write(0,*),'data_size',data_size
     write(0,*),'irun',irun
+    endif
 
-
-
-    print *, "Micro_C/R - Starting computation"
-    call init(0,1)
+    if(mype==0) print *, "Micro_C/R - Starting computation"
+    call init(mype,nproc)
     !allocate from phoenix lib 
     nsize = data_size 
     iter = comp_step
@@ -99,7 +108,7 @@ program micro
 
     !variable initialization during the first run
     if(irun == 0)then
-      write(0,*) 'First run of the program. Initalizing variables.'
+      if(mype == 0) write(0,*) 'First run of the program. Initalizing variables.'
       array_1=1
       array_2=2
       array_3=3
@@ -115,12 +124,14 @@ program micro
     !Do some heavy computations, checkpoint after each iter
     do i = 1, 10
         call compute(iter,nsize)
-        write(0,*) 'Program values', array_1(1),array_4(1),array_7(1),array_10(1)
+        if(mype == 0) write(0,*) 'Program values', array_1(1),array_4(1),array_7(1),array_10(1)
         !coordinated checkpoint 
-        call chkpt_all(1)
+        call MPI_BARRIER(MPI_COMM_WORLD,ierr)
+        call chkpt_all(mype)
     end do
-    
-    write(0,*)'End of benchmark. Bye!!'
+    call MPI_FINALIZE(ierr) 
+    call end_timestamp()
+    if(mype == 0) write(0,*)'End of benchmark. Bye!!'
 end program micro
 
 !Compute subroutine
