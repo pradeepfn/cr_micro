@@ -1,0 +1,20 @@
+#!/bin/bash
+#----------------------------------------------------
+# SLURM job script to run GTC on 
+# TACC's Stampede system.
+#----------------------------------------------------
+
+#SBATCH -J micro_pfn              # Job name
+#SBATCH -o micro_pfn.%j.out       # Name of stdout output file (%j expands to jobId)
+#SBATCH -p development        # Queue name
+#SBATCH -N 2                  # Total number of nodes requested (16 cores/node)
+#SBATCH -n 30                 # Total number of mpi tasks requested
+#SBATCH -t 00:10:00           # Run time (hh:mm:ss) - 1.5 hours
+
+#SBATCH -A TG-CCR150014      # <-- Allocation name to charge job against
+
+
+make rclean
+ibrun ./main
+
+
