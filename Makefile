@@ -14,3 +14,7 @@ allocate.o: allocate.f90
 
 clean:
 	rm -rf micro.o allocate.o allocator.mod
+
+rclean:
+	rm -rf /home/pradeep/testmmap/*
+	rm -rf stats/*
