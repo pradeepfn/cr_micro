@@ -77,34 +77,34 @@ program micro
     iter = comp_step
 
     varname = "array_1"
-    call alloc_1d_real(array_1,nsize,varname,1,nsize) 
+    call alloc_1d_real(array_1,nsize,varname,mype,nsize) 
 
     varname = "array_2"
-    call alloc_1d_real(array_2,nsize,varname,1,nsize) 
+    call alloc_1d_real(array_2,nsize,varname,mype,nsize) 
 
     varname = "array_3"
-    call alloc_1d_real(array_3,nsize,varname,1,nsize) 
+    call alloc_1d_real(array_3,nsize,varname,mype,nsize) 
 
     varname = "array_4"
-    call alloc_1d_real(array_4,nsize,varname,1,nsize) 
+    call alloc_1d_real(array_4,nsize,varname,mype,nsize) 
 
     varname = "array_5"
-    call alloc_1d_real(array_5,nsize,varname,1,nsize) 
+    call alloc_1d_real(array_5,nsize,varname,mype,nsize) 
 
     varname = "array_6"
-    call alloc_1d_real(array_6,nsize,varname,1,nsize) 
+    call alloc_1d_real(array_6,nsize,varname,mype,nsize) 
 
     varname = "array_7"
-    call alloc_1d_real(array_7,nsize,varname,1,nsize) 
+    call alloc_1d_real(array_7,nsize,varname,mype,nsize) 
 
     varname = "array_8"
-    call alloc_1d_real(array_8,nsize,varname,1,nsize) 
+    call alloc_1d_real(array_8,nsize,varname,mype,nsize) 
 
     varname = "array_9"
-    call alloc_1d_real(array_9,nsize,varname,1,nsize) 
+    call alloc_1d_real(array_9,nsize,varname,mype,nsize) 
 
     varname = "array_10"
-    call alloc_1d_real(array_10,nsize,varname,1,nsize) 
+    call alloc_1d_real(array_10,nsize,varname,mype,nsize) 
 
     !variable initialization during the first run
     if(irun == 0)then
