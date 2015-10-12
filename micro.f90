@@ -1,7 +1,7 @@
 MODULE Global
-    !we are going to  have twenty variables to simulate our apps
-    real, pointer :: array_1(:)
-    real, pointer :: array_2(:)
+    !we are going to  have twenty variables to simulate our apps 
+    real, pointer :: array_1(:) 
+    real, pointer :: array_2(:) 
     real, pointer :: array_3(:)
     real, pointer :: array_4(:)
     real, pointer :: array_5(:)
@@ -12,7 +12,7 @@ MODULE Global
     real, pointer :: array_10(:)
 
 CONTAINS
-    subroutine arrayincmod(array)
+    subroutine arrayincmod(array) 
     real,pointer  :: array(:)
     do i = 1,size(array)  
        array(i) = array(i) +1
@@ -128,6 +128,7 @@ program micro
         !coordinated checkpoint 
         call MPI_BARRIER(MPI_COMM_WORLD,ierr)
         call chkpt_all(mype)
+        call MPI_BARRIER(MPI_COMM_WORLD,ierr)
     end do
     call MPI_FINALIZE(ierr) 
     call end_timestamp()
@@ -147,10 +148,10 @@ do i = 1,iter
      call arrayincmod(array_4)
      call arrayincmod(array_5)
      call arrayincmod(array_6)
-     call arrayincmod(array_7)
      call arrayincmod(array_8)
      call arrayincmod(array_9)
      call arrayincmod(array_10)
+     call arrayincmod(array_7)
     end do
 end do
 end subroutine compute

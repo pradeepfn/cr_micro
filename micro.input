@@ -1,6 +1,6 @@
 &control
 comp_step=4,
-data_size=100,
+data_size=100000,
 irun=0
 /
 
