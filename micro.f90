@@ -124,13 +124,13 @@ program micro
     !Do some heavy computations, checkpoint after each iter
     do i = 1, 10
         call compute(iter,nsize)
+        call sleep(1)
         if(mype == 0) write(0,*) 'Program values', array_1(1),array_4(1),array_7(1),array_10(1)
         !coordinated checkpoint 
-        call MPI_BARRIER(MPI_COMM_WORLD,ierr)
         call chkpt_all(mype)
     end do
-    call MPI_FINALIZE(ierr) 
     call end_timestamp()
+    call MPI_FINALIZE(ierr) 
     if(mype == 0) write(0,*)'End of benchmark. Bye!!'
 end program micro
 
@@ -147,10 +147,10 @@ do i = 1,iter
      call arrayincmod(array_4)
      call arrayincmod(array_5)
      call arrayincmod(array_6)
-     call arrayincmod(array_7)
      call arrayincmod(array_8)
      call arrayincmod(array_9)
      call arrayincmod(array_10)
+     call arrayincmod(array_7)
     end do
 end do
 end subroutine compute

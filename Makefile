@@ -2,7 +2,7 @@ FC=mpif90
 CC=gcc
 CFLAGS=-g
 FFLAGS=-g -I/home1/03528/pradeepf/phoenix/include -I/home1/03528/pradeepf/armci_install/include 
-LDFLAGS=-g -L/home1/03528/pradeepf/phoenix/lib -L/home1/03528/pradeepf/armci_install/lib -lphoenix -larmci
+LDFLAGS=-g -L/home1/03528/pradeepf/phoenix/lib -L/home1/03528/pradeepf/armci_install/lib -lphoenix -larmci -lssl -lcrypto
 main: micro.o allocate.o
 	$(FC) -o $@ $^ $(LDFLAGS)
 
@@ -13,7 +13,7 @@ allocate.o: allocate.f90
 	$(FC) $(FFLAGS) -c $<
 
 clean:
-	rm -rf micro.o allocate.o allocator.mod
+	rm -rf micro.o allocate.o allocator.mod global.mod
 
 rclean:
 	rm -rf /dev/shm/mmap.*
