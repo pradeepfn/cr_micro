@@ -124,6 +124,7 @@ program micro
     !Do some heavy computations, checkpoint after each iter
     do i = 1, 10
         call compute(iter,nsize)
+        call sleep(1)
         if(mype == 0) write(0,*) 'Program values', array_1(1),array_4(1),array_7(1),array_10(1)
         !coordinated checkpoint 
         call MPI_BARRIER(MPI_COMM_WORLD,ierr)

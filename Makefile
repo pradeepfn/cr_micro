@@ -2,7 +2,7 @@ FC=mpif90
 CC=gcc
 CFLAGS=-g
 FFLAGS=-g -I/home/pradeep/checkout/tacc_phoenix/include 
-LDFLAGS=-g -L/home/pradeep/checkout/tacc_phoenix/lib -lphoenix -larmci -lpthread
+LDFLAGS=-g -L/home/pradeep/checkout/tacc_phoenix/lib -lphoenix -larmci -lpthread -lssl -lcrypto
 main: micro.o allocate.o
 	$(FC) -o $@ $^ $(LDFLAGS)
 
